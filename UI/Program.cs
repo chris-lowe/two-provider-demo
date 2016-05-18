@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Messages;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NServiceBus;
 using NServiceBus.Persistence;
 
-namespace BusinessLayer
+namespace UI
 {
     class Program
     {
@@ -16,11 +17,11 @@ namespace BusinessLayer
 
         static async Task AsyncMain()
         {
-            Console.Title = "POC BusinessLayer";
+            Console.Title = "POC UI";
 
             #region SenderConfiguration
 
-            EndpointConfiguration endpointConfiguration = new EndpointConfiguration("POC.BusinessLayer");
+            EndpointConfiguration endpointConfiguration = new EndpointConfiguration("POC.UI");
             var transport = endpointConfiguration.UseTransport<MsmqTransport>();
             endpointConfiguration.UseSerialization<JsonSerializer>();
             endpointConfiguration.SendFailedMessagesTo("error");
@@ -43,9 +44,8 @@ namespace BusinessLayer
 
             try
             {
-                Console.WriteLine("Business Layer");
-                Console.WriteLine("Waiting for SendSmsConfirmation confirmation command");
-                Console.WriteLine("Press enter key to exit");
+                Console.WriteLine("Press any key to send the SmsConfirmation command");
+                Console.WriteLine("Press enter to exit");
 
                 while (true)
                 {
@@ -56,6 +56,17 @@ namespace BusinessLayer
                     {
                         return;
                     }
+
+                    var confirmationID = Guid.NewGuid();
+
+                    await endpoint.Send("POC.BusinessLayer", new SendSmsConfirmation
+                    {
+                        ConfirmationID = confirmationID,
+                        CustomerID = Guid.NewGuid(),
+                        MobileNumber = "07711606060",
+                    });
+
+                    Console.Write("SendSmsConfirmation message sent with confirmationID {0}", confirmationID);
                 }
             }
             finally
@@ -63,6 +74,5 @@ namespace BusinessLayer
                 await endpoint.Stop();
             }
         }
-
     }
 }

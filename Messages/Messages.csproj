@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendSmsConfirmationUsingProvider1.cs" />
     <Compile Include="SendSmsConfirmationUsingProvider2.cs" />
+    <Compile Include="SmsConfirmationComplete.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

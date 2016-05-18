@@ -66,7 +66,7 @@ namespace Gateway
                             if (SMSProvider == 2)
                             {
                                 SMSProvider = 1;
-                                Console.Write("Sms Provider has been swictched to provider {0}", 1);
+                                Console.WriteLine("Sms Provider has been swictched to provider {0}", 1);
                             }
                             else
                             {

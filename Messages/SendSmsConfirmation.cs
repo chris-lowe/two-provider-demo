@@ -7,6 +7,7 @@ namespace Messages
     {
 
         public Guid ConfirmationID { get; set; }
+        public Guid CustomerID { get; set; }
         public string ConfirmationCode { get; set; }
         public string MobileNumber { get; set; }
     }
